@@ -62,6 +62,51 @@
     });
   }
 
+  // ===== Coming Soon modal =====
+  function initComingSoonModal() {
+    var modal = document.getElementById('coming-soon-modal');
+    var triggers = document.querySelectorAll('.js-coming-soon');
+    var closeBtn = modal && modal.querySelector('.modal__close');
+    var backdrop = modal && modal.querySelector('.modal__backdrop');
+
+    function openModal() {
+      if (modal) {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    }
+
+    triggers.forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var openModalEl = document.querySelector('.modal.is-open');
+        if (openModalEl) {
+          openModalEl.classList.remove('is-open');
+          openModalEl.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+    });
+  }
+
   // ===== Newsletter form =====
   function initNewsletterForm() {
     var form = document.getElementById('newsletter-form');
@@ -80,7 +125,21 @@
 
       // Placeholder: in production, this would submit to an API
       console.log('Newsletter signup:', email);
-      alert('Thanks for subscribing! You\'re on the list.');
+
+      var successModal = document.getElementById('newsletter-success-modal');
+      if (successModal) {
+        successModal.classList.add('is-open');
+        successModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        function closeSuccessModal() {
+          successModal.classList.remove('is-open');
+          successModal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+        successModal.querySelector('.modal__backdrop').onclick = closeSuccessModal;
+        successModal.querySelector('.modal__close').onclick = closeSuccessModal;
+      }
 
       if (emailInput) emailInput.value = '';
     });
@@ -96,6 +155,7 @@
   function run() {
     initCopyButtons();
     initScrollAnimations();
+    initComingSoonModal();
     initNewsletterForm();
   }
 })();
