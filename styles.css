@@ -221,7 +221,8 @@ main {
 
 .resources__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
+  max-width: 320px;
   gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -415,6 +416,98 @@ main {
   color: #999;
 }
 
+/* ===== Coming Soon Modal ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.25s, opacity 0.25s;
+}
+
+.modal.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.modal__box {
+  position: relative;
+  background: linear-gradient(145deg, #1a1a1a 0%, #141414 100%);
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+}
+
+.modal.is-open .modal__box {
+  transform: scale(1);
+}
+
+.modal__icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+#newsletter-success-modal .modal__icon {
+  color: #48C9B0;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.modal__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.75rem;
+}
+
+.modal__text {
+  font-size: 1rem;
+  color: #999;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.modal__close:hover {
+  color: #E76F51;
+  background: rgba(231, 111, 81, 0.1);
+}
+
 /* ===== Animations (fade-in on scroll) ===== */
 .fade-in {
   opacity: 0;
@@ -432,20 +525,12 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .resources__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .contract-address__wrap {
     flex-direction: column;
   }
 }
 
 @media (max-width: 500px) {
-  .resources__grid {
-    grid-template-columns: 1fr;
-  }
-
   .newsletter__form {
     flex-direction: column;
   }
